@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,14 +44,15 @@ public class MainActivity extends AppCompatActivity {
 
         likeCountView = (TextView) findViewById(R.id.likeCountView);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        CommentAdapter adapter = new CommentAdapter();
-        listView.setAdapter(adapter);
+//        ListView listView = (ListView) findViewById(R.id.listView);
+//        CommentAdapter adapter = new CommentAdapter();
+//        listView.setAdapter(adapter);
     }
 
-    class CommentAdapter extends BaseAdapter{
-
-    }
+//    class CommentAdapter extends BaseAdapter{
+//        // 필요한거 정의 ㄱㄱ.
+//        // 데이터 관리 + comment_item_view 통해서 view도 생성.
+//    }
 
     public void incrLikeCount(){
         likeCount += 1;
@@ -79,3 +78,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+

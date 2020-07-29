@@ -23,7 +23,6 @@ public class CommentItemView extends LinearLayout{
 
     private void init(Context context){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // FIXME : 왜 comment_item_view 불러오기가 안될까?
         inflater.inflate(R.layout.comment_item_view, this, true);
     }
 }
