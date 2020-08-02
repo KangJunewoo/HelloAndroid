@@ -4,20 +4,34 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     // 클래스 안에서 언제든 접근할 수 있도록 하려면 앞쪽에 선언.
     TextView likeCountView;
+    TextView dislikeCountView;
     Button likeButton;
+    Button dislikeButton;
+    Button yemaeButton;
+    Button facebookButton;
+    Button kakaoButton;
+    Button moduButton;
+    Button jakseongButton;
 
-    int likeCount = 1;
+    int likeCount = 34;
+    int dislikeCount = 12;
     boolean likeState = false;
+    boolean dislikeState = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,30 +43,137 @@ public class MainActivity extends AppCompatActivity {
         // Button likeButton = (Button) findViewById(R.id.likeButton);
 
         likeButton = (Button) findViewById(R.id.likeButton);
+        dislikeButton = (Button) findViewById(R.id.dislikeButton);
+
+        yemaeButton = (Button) findViewById(R.id.yemaeButton);
+        moduButton = (Button) findViewById(R.id.moduButton);
+        jakseongButton = (Button) findViewById(R.id.jakseongButton);
+        facebookButton = (Button) findViewById(R.id.facebookButton);
+        kakaoButton = (Button) findViewById(R.id.kakaoButton);
+
+
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // onclick시 4가지 경우
+                // 좋o싫x : 좋x
+                // 좋x싫o : 좋o싫x
+                // 좋x싫x : 좋o
                 if(likeState){
                     decrLikeCount();
                 } else{
                     incrLikeCount();
+                    if(dislikeState){
+                        decrDislikeCount();
+                        dislikeState = false;
+                    }
                 }
 
                 likeState = !likeState;
             }
         });
 
-        likeCountView = (TextView) findViewById(R.id.likeCountView);
+        dislikeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(dislikeState){
+                    decrDislikeCount();
+                } else{
+                    incrDislikeCount();
+                    if(likeState){
+                        decrLikeCount();
+                        likeState = false;
+                    }
+                }
 
-//        ListView listView = (ListView) findViewById(R.id.listView);
-//        CommentAdapter adapter = new CommentAdapter();
-//        listView.setAdapter(adapter);
+                dislikeState = !dislikeState;
+            }
+        });
+
+        yemaeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onYemaeButtonClicked(v);
+            }
+        });
+
+        moduButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onModuButtonClicked(v);
+            }
+        });
+
+        jakseongButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onJakseongButtonClicked(v);
+            }
+        });
+
+        facebookButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onFacebookButtonClicked(v);
+            }
+        });
+
+        kakaoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                onKakaoButtonClicked(v);
+            }
+        });
+
+        likeCountView = (TextView) findViewById(R.id.likeCountView);
+        dislikeCountView = (TextView) findViewById(R.id.dislikeCountView);
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        CommentAdapter adapter = new CommentAdapter();
+
+        adapter.addItem(new CommentItem("brianjune", 20, (float) 8.9, "넘나재밌어요", 4, R.drawable.user1));
+        adapter.addItem(new CommentItem("junewoo98", 10, (float) 2.3, "형편없어요 ㅜㅜ", 5, R.drawable.user1));
+
+        listView.setAdapter(adapter);
+
     }
 
-//    class CommentAdapter extends BaseAdapter{
-//        // 필요한거 정의 ㄱㄱ.
-//        // 데이터 관리 + comment_item_view 통해서 view도 생성.
-//    }
+    class CommentAdapter extends BaseAdapter {
+        ArrayList<CommentItem> items = new ArrayList<CommentItem>();
+
+        @Override
+        public int getCount(){
+            return items.size();
+        }
+
+        public void addItem(CommentItem item){
+            items.add(item);
+        }
+
+        @Override
+        public Object getItem(int position){
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position){
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup viewGroup){
+            CommentItemView view = new CommentItemView(getApplicationContext());
+            CommentItem item = items.get(position);
+            view.setId(item.getId());
+            view.setImage(item.getResId());
+            view.setRatingBar(item.getRating());
+            view.setContents(item.getContents());
+            view.setLikes(item.getLikes());
+            view.setMinutes(item.getMinutes());
+
+            return view;
+        }
+    }
 
     public void incrLikeCount(){
         likeCount += 1;
@@ -66,15 +187,42 @@ public class MainActivity extends AppCompatActivity {
         likeCount -= 1;
         likeCountView.setText(String.valueOf(likeCount));
 
-        likeButton.setBackgroundResource(R.drawable.ic_thumb_down_selected);
+        likeButton.setBackgroundResource(R.drawable.ic_thumb_up);
     }
 
-    public void onButton1Clicked(View v){
-        Toast.makeText(getApplicationContext(), "버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
+    public void incrDislikeCount(){
+        dislikeCount += 1;
+        dislikeCountView.setText(String.valueOf(dislikeCount));
+
+        dislikeButton.setBackgroundResource(R.drawable.ic_thumb_down_selected);
     }
 
-    public void onButton2Clicked(View v){
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m.naver.com"));
+    public void decrDislikeCount(){
+        dislikeCount -= 1;
+        dislikeCountView.setText(String.valueOf(dislikeCount));
+
+        dislikeButton.setBackgroundResource(R.drawable.ic_thumb_down);
+    }
+
+    public void onYemaeButtonClicked(View v){
+        Toast.makeText(getApplicationContext(), "예매버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
+    }
+
+    public void onJakseongButtonClicked(View v){
+        Toast.makeText(getApplicationContext(), "작성버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
+    }
+
+    public void onModuButtonClicked(View v){
+        Toast.makeText(getApplicationContext(), "모두보기버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
+    }
+
+    public void onFacebookButtonClicked(View v){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m.facebook.com"));
+        startActivity(intent);
+    }
+
+    public void onKakaoButtonClicked(View v){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://m.kakao.com"));
         startActivity(intent);
     }
 }
