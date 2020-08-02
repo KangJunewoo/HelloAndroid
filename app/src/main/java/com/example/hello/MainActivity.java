@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         likeCount -= 1;
         likeCountView.setText(String.valueOf(likeCount));
 
-        likeButton.setBackgroundResource(R.drawable.thumbs_up_selector);
+        likeButton.setBackgroundResource(R.drawable.ic_thumb_down_selected);
     }
 
     public void onButton1Clicked(View v){
