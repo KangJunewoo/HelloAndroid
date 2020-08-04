@@ -8,14 +8,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    RatingBar ratingBar;
+    TextView outputView;
 
     // 클래스 안에서 언제든 접근할 수 있도록 하려면 앞쪽에 선언.
     TextView likeCountView;
@@ -38,7 +42,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 인플레이션 과정, 이후 findViewById 사용 가능.
 
-
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
+        outputView = (TextView) findViewById(R.id.outputView);
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                showCommentWriteActivity();
+            }
+        });
         // 상관없다면 여기서 선언.
         // Button likeButton = (Button) findViewById(R.id.likeButton);
 
@@ -135,6 +147,27 @@ public class MainActivity extends AppCompatActivity {
         adapter.addItem(new CommentItem("junewoo98", 10, (float) 2.3, "형편없어요 ㅜㅜ", 5, R.drawable.user1));
 
         listView.setAdapter(adapter);
+
+    }
+
+    public void showCommentWriteActivity(){
+        float rating = ratingBar.getRating();
+
+        Intent intent = new Intent(getApplicationContext(), CommentWriteActivity.class);
+        intent.putExtra("rating", rating);
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if(requestCode == 101){
+            if(intent != null){
+                String contents = intent.getStringExtra("contents");
+                outputView.setText(contents);
+            }
+        }
 
     }
 
