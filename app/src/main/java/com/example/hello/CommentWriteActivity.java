@@ -13,6 +13,7 @@ public class CommentWriteActivity extends AppCompatActivity {
     RatingBar ratingBar;
     EditText contentsInput;
     Button saveButton;
+    Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class CommentWriteActivity extends AppCompatActivity {
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         contentsInput = (EditText) findViewById(R.id.contentsInput);
         saveButton = (Button) findViewById(R.id.saveButton);
+        cancelButton = (Button) findViewById(R.id.cancelButton);
 
         // 넘어오게 된 인텐트를 intent에 저장하고, 처리 ㄱㄱ.
         Intent intent = getIntent();
@@ -31,6 +33,13 @@ public class CommentWriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 returnToMain();
+                finish();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
                 finish();
             }
         });
