@@ -20,8 +20,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     RatingBar ratingBar;
     TextView outputView;
-
-    // 클래스 안에서 언제든 접근할 수 있도록 하려면 앞쪽에 선언.
     TextView likeCountView;
     TextView dislikeCountView;
     Button likeButton;
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 인플레이션 과정, 이후 findViewById 사용 가능.
 
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         outputView = (TextView) findViewById(R.id.outputView);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener(){
@@ -51,12 +49,10 @@ public class MainActivity extends AppCompatActivity {
                 showCommentWriteActivity();
             }
         });
-        // 상관없다면 여기서 선언.
-        // Button likeButton = (Button) findViewById(R.id.likeButton);
 
+        // Project B
         likeButton = (Button) findViewById(R.id.likeButton);
         dislikeButton = (Button) findViewById(R.id.dislikeButton);
-
         yemaeButton = (Button) findViewById(R.id.yemaeButton);
         moduButton = (Button) findViewById(R.id.moduButton);
         jakseongButton = (Button) findViewById(R.id.jakseongButton);
@@ -150,14 +146,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    // Project C
     public void showCommentWriteActivity(){
         float rating = ratingBar.getRating();
 
+        // CommentWriteActivity를 띄워주는 인텐트인가보다. putExtra()로 부가데이터 넣어주고
+        // startActivityForResult로 액티비티 시작!
         Intent intent = new Intent(getApplicationContext(), CommentWriteActivity.class);
         intent.putExtra("rating", rating);
         startActivityForResult(intent, 101);
     }
 
+    // CommentWriteActivity의 result, 즉 그 액티비티가 끝날때 하는것들 말하는가보다.
+    // 여기선 contents 입력한값대로 설정해주기.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -171,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    // Project B
     class CommentAdapter extends BaseAdapter {
         ArrayList<CommentItem> items = new ArrayList<CommentItem>();
 

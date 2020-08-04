@@ -12,31 +12,34 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CommentWriteActivity extends AppCompatActivity {
     RatingBar ratingBar;
     EditText contentsInput;
+    Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_write);
 
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         contentsInput = (EditText) findViewById(R.id.contentsInput);
+        saveButton = (Button) findViewById(R.id.saveButton);
 
-        Button saveButton = (Button) findViewById(R.id.saveButton);
+        // 넘어오게 된 인텐트를 intent에 저장하고, 처리 ㄱㄱ.
+        Intent intent = getIntent();
+        processIntent(intent);
+
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 returnToMain();
-
                 finish();
             }
         });
 
-        Intent intent = getIntent();
-        processIntent(intent);
     }
 
     private void processIntent(Intent intent){
         if(intent != null){
+            // intent로 rating이 넘어왔다면 그걸 rating에 담고, 안넘어왔다면 0.0을 담는다. 그리고 세팅.
             float rating = intent.getFloatExtra("rating", 0.0f);
             ratingBar.setRating(rating);
         }
