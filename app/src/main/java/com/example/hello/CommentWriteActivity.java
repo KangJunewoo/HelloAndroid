@@ -56,8 +56,11 @@ public class CommentWriteActivity extends AppCompatActivity {
 
     public void returnToMain(){
         String contents = contentsInput.getText().toString();
+        float rating = ratingBar.getRating();
+
         Intent intent = new Intent();
         intent.putExtra("contents", contents);
+        intent.putExtra("rating", rating);
 
         setResult(RESULT_OK, intent);
 

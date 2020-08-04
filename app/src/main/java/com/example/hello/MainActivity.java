@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Button kakaoButton;
     Button moduButton;
     Button jakseongButton;
+    CommentAdapter adapter;
+    ListView listView;
 
     int likeCount = 34;
     int dislikeCount = 12;
@@ -40,13 +42,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 인플레이션 과정, 이후 findViewById 사용 가능.
 
+        jakseongButton = (Button) findViewById(R.id.jakseongButton);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         outputView = (TextView) findViewById(R.id.outputView);
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
+        jakseongButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                showCommentWriteActivity();
+                float rating = ratingBar.getRating();
+
+                // CommentWriteActivity를 띄워주는 인텐트인가보다. putExtra()로 부가데이터 넣어주고
+                // startActivityForResult로 액티비티 시작!
+                Intent intent = new Intent(getApplicationContext(), CommentWriteActivity.class);
+                intent.putExtra("rating", rating);
+                startActivityForResult(intent, 101);
             }
         });
 
@@ -55,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         dislikeButton = (Button) findViewById(R.id.dislikeButton);
         yemaeButton = (Button) findViewById(R.id.yemaeButton);
         moduButton = (Button) findViewById(R.id.moduButton);
-        jakseongButton = (Button) findViewById(R.id.jakseongButton);
         facebookButton = (Button) findViewById(R.id.facebookButton);
         kakaoButton = (Button) findViewById(R.id.kakaoButton);
 
@@ -112,13 +119,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        jakseongButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                onJakseongButtonClicked(v);
-            }
-        });
-
         facebookButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -136,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
         likeCountView = (TextView) findViewById(R.id.likeCountView);
         dislikeCountView = (TextView) findViewById(R.id.dislikeCountView);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        CommentAdapter adapter = new CommentAdapter();
+        listView = (ListView) findViewById(R.id.listView);
+        adapter = new CommentAdapter();
 
         adapter.addItem(new CommentItem("brianjune", 20, (float) 8.9, "넘나재밌어요", 4, R.drawable.user1));
         adapter.addItem(new CommentItem("junewoo98", 10, (float) 2.3, "형편없어요 ㅜㅜ", 5, R.drawable.user1));
@@ -148,15 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Project C
-    public void showCommentWriteActivity(){
-        float rating = ratingBar.getRating();
 
-        // CommentWriteActivity를 띄워주는 인텐트인가보다. putExtra()로 부가데이터 넣어주고
-        // startActivityForResult로 액티비티 시작!
-        Intent intent = new Intent(getApplicationContext(), CommentWriteActivity.class);
-        intent.putExtra("rating", rating);
-        startActivityForResult(intent, 101);
-    }
 
     // CommentWriteActivity의 result, 즉 그 액티비티가 끝날때 하는것들 말하는가보다.
     // 여기선 contents 입력한값대로 설정해주기.
@@ -167,12 +159,20 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 101){
             if(intent != null){
                 String contents = intent.getStringExtra("contents");
-                outputView.setText(contents);
+                float rating = intent.getFloatExtra("rating", 0.0f);
+                outputView.setText(String.valueOf(rating) + " & " + contents);
+                adapter.addItem(new CommentItem("test", 1, rating, contents, 0, R.drawable.user1));
             }
         }
 
     }
 
+    public void onModuButtonClicked(View v){
+        // CommentWriteActivity를 띄워주는 인텐트인가보다. putExtra()로 부가데이터 넣어주고
+        // startActivityForResult로 액티비티 시작!
+        Intent intent = new Intent(getApplicationContext(), ModuBogiActivity.class);
+        startActivity(intent);
+    }
 
     // Project B
     class CommentAdapter extends BaseAdapter {
@@ -243,14 +243,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onYemaeButtonClicked(View v){
         Toast.makeText(getApplicationContext(), "예매버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
-    }
-
-    public void onJakseongButtonClicked(View v){
-        Toast.makeText(getApplicationContext(), "작성버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
-    }
-
-    public void onModuButtonClicked(View v){
-        Toast.makeText(getApplicationContext(), "모두보기버튼이 눌렸어요.", Toast.LENGTH_LONG).show();
     }
 
     public void onFacebookButtonClicked(View v){
