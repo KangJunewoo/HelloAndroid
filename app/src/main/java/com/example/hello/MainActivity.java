@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentCallback {
     RatingBar ratingBar;
     TextView outputView;
     TextView likeCountView;
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     Button jakseongButton;
     CommentAdapter adapter;
     ListView listView;
+    Fragment1 fragment1;
+    Button button;
 
     int likeCount = 34;
     int dislikeCount = 12;
@@ -41,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 인플레이션 과정, 이후 findViewById 사용 가능.
+
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(fragment1 != null){
+                    fragment1.onCommandFromActivity("show", "액티비티로부터 전달됨");
+                }
+            }
+        });
+        fragment1 = new Fragment1();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment1).commit();
 
         jakseongButton = (Button) findViewById(R.id.jakseongButton);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -147,7 +161,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Project C
+    public void onCommand(String command, String data){
+        button.setText(data);
+    }
 
 
     // CommentWriteActivity의 result, 즉 그 액티비티가 끝날때 하는것들 말하는가보다.
