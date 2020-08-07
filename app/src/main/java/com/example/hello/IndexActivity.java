@@ -38,6 +38,7 @@ public class IndexActivity extends AppCompatActivity {
 
 
         pager.setAdapter(adapter);
+
 }
 
     class MoviePagerAdapter extends FragmentStatePagerAdapter {

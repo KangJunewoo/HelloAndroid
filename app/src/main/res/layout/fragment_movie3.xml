@@ -23,11 +23,13 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
     <Button
-        android:text="상세보기"
-        android:background="@drawable/linear_border_orange"
-        android:layout_gravity="center"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/linear_border_orange"
+        android:text="상세보기" />
 
 </LinearLayout>

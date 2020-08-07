@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"/>
     <Button
         android:text="상세보기"
+        android:id="@+id/button"
         android:background="@drawable/linear_border_orange"
         android:layout_gravity="center"
         android:layout_width="wrap_content"

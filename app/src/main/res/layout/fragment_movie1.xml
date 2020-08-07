@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
+        android:id="@+id/button"
         android:text="상세보기"
         android:background="@drawable/linear_border_orange"
         android:layout_gravity="center"
