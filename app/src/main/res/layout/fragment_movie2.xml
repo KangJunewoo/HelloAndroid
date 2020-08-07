@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
     android:layout_gravity="center"
+    android:background="@color/colorAccent"
     android:orientation="vertical">
 
     <ImageView
-        android:src="@drawable/image2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:src="@drawable/image2" />
 
     <TextView
-        android:text="2. 공조"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="2. 공조" />
+
     <TextView
-        android:text="예매율 61.6% | 15세 관람가 | D-1"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="예매율 61.6% | 15세 관람가 | D-1" />
+
     <Button
-        android:text="상세보기"
         android:id="@+id/button"
-        android:background="@drawable/linear_border_orange"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/linear_border_orange"
+        android:text="상세보기" />
 
 </LinearLayout>
