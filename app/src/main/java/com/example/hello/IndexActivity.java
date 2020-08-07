@@ -1,6 +1,8 @@
 package com.example.hello;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,5 +65,21 @@ public class IndexActivity extends AppCompatActivity {
         public int getCount() {
             return items.size();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_index, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int curId = item.getItemId();
+        if(curId == R.id.menu_hamburger){
+            // TODO : 슈루룩 보이는 코드 필요
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
