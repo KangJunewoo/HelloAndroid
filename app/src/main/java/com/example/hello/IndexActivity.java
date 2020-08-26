@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +24,6 @@ import com.example.hello.data.MovieList;
 import com.example.hello.data.ResponseInfo;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class IndexActivity extends AppCompatActivity {
@@ -34,11 +32,7 @@ public class IndexActivity extends AppCompatActivity {
     int i=0;
     ViewPager pager;
     // 아싸리 전역으로 선언해버리기..?
-    public static ArrayList<Type> movie1 = new ArrayList<Type>();
-    public static ArrayList<Type> movie2 = new ArrayList<Type>();
-    public static ArrayList<Type> movie3 = new ArrayList<Type>();
-    public static ArrayList<Type> movie4 = new ArrayList<Type>();
-    public static ArrayList<Type> movie5 = new ArrayList<Type>();
+    public static MovieList movies = new MovieList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +51,6 @@ public class IndexActivity extends AppCompatActivity {
 
 
         requestMovieList2();
-        Toast.makeText(getApplicationContext(), movies.get(0).toString(), Toast.LENGTH_LONG).show();
 
         if(AppHelper.requestQueue == null){
             AppHelper.requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -68,58 +61,39 @@ public class IndexActivity extends AppCompatActivity {
         pager.setOffscreenPageLimit(5);
 
         MoviePagerAdapter adapter = new MoviePagerAdapter(getSupportFragmentManager());
-
+        ArrayList<Bundle> bundles = new ArrayList<Bundle>();
         Bundle bundle1 = new Bundle();
         Bundle bundle2 = new Bundle();
         Bundle bundle3 = new Bundle();
         Bundle bundle4 = new Bundle();
         Bundle bundle5 = new Bundle();
+        bundles.add(bundle1);
+        bundles.add(bundle2);
+        bundles.add(bundle3);
+        bundles.add(bundle4);
+        bundles.add(bundle5);
+
 
         FragmentMovie1 f1 = new FragmentMovie1();
-        bundle1.putString("title", movie1.get(0).toString());
-        bundle1.putString("image", movie1.get(1).toString());
-        bundle1.putFloat("reservation_rate", movie1.get(2));
-        bundle1.putInt("grade", movie1.get(3));
-        bundle1.putString("date", movie1.get(4));
+        bundle1.putString("title", movies.result.get(0).title);
+        bundle1.putString("image", movies.result.get(0).image);
+        bundle1.putFloat("reservation_rate", movies.result.get(0).reservation_rate);
+        bundle1.putInt("grade", movies.result.get(0).grade);
+        bundle1.putString("date", movies.result.get(0).date);
         f1.setArguments(bundle1);
         adapter.addItem(f1);
 
         FragmentMovie2 f2 = new FragmentMovie2();
-        bundle1.putString("title", movie2.get(0));
-        bundle1.putString("image", movie2.get(1));
-        bundle1.putString("reservation_rate", movie2.get(2));
-        bundle1.putString("grade", movie2.get(3));
-        bundle1.putString("date", movie2.get(4));
-        f1.setArguments(bundle2);
         adapter.addItem(f2);
 
         FragmentMovie3 f3 = new FragmentMovie3();
-        bundle1.putString("title", movie3.get(0));
-        bundle1.putString("image", movie3.get(1));
-        bundle1.putString("reservation_rate", movie3.get(2));
-        bundle1.putString("grade", movie3.get(3));
-        bundle1.putString("date", movie3.get(4));
-        f1.setArguments(bundle3);
         adapter.addItem(f3);
 
         FragmentMovie4 f4 = new FragmentMovie4();
-        bundle4.putString("title", movie4.get(0));
-        bundle4.putString("image", movie4.get(1));
-        bundle4.putString("reservation_rate", movie4.get(2));
-        bundle4.putString("grade", movie4.get(3));
-        bundle4.putString("date", movie4.get(4));
-        f1.setArguments(bundle4);
         adapter.addItem(f4);
 
         FragmentMovie5 f5 = new FragmentMovie5();
-        bundle5.putString("title", movie5.get(0));
-        bundle5.putString("image", movie5.get(1));
-        bundle5.putString("reservation_rate", movie5.get(2));
-        bundle5.putString("grade", movie5.get(3));
-        bundle5.putString("date", movie5.get(4));
-        f1.setArguments(bundle5);
         adapter.addItem(f5);
-
 
         pager.setAdapter(adapter);
     }
@@ -257,19 +231,8 @@ public class IndexActivity extends AppCompatActivity {
         // 정상코드면 ㄱㄱ
         if(info.code == 200){
             // movieList.result로 영화정보 접근 가능.
-            // 여기서 title, image, reservation_rate, grade, date를 빼야함.
-            MovieList movieList = gson.fromJson(response, MovieList.class);
-            MovieInfo movieInfo = movieList.result.get(i);
-            movie1.add(movieInfo.title);
-            movie1.add(movieInfo.image);
-            movie1.add(movieInfo.reservation_rate));
-            movie1.add(movieInfo.grade);
-            movie1.add(movieInfo.date);
-
+            // 여기서 title, image, reservation_rate, grade, date를 추출해야함.
+            movies = gson.fromJson(response, MovieList.class);
         }
-    }
-
-    public void applyInfo(MovieInfo movieInfo){
-
     }
 }
