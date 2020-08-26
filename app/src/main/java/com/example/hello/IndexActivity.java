@@ -3,7 +3,6 @@ package com.example.hello;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,7 +31,7 @@ public class IndexActivity extends AppCompatActivity {
     int i=0;
     ViewPager pager;
     // 아싸리 전역으로 선언해버리기..?
-    public static MovieList movies = new MovieList();
+    public MovieList movies = new MovieList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +40,13 @@ public class IndexActivity extends AppCompatActivity {
 
         // 네트워크
         textView = (TextView) findViewById(R.id.textView);
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestMovieList();
-            }
-        });
+//        button = (Button) findViewById(R.id.button);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                requestMovieList();
+//            }
+//        });
 
 
         requestMovieList2();
@@ -191,6 +190,8 @@ public class IndexActivity extends AppCompatActivity {
                 new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error){
+                        System.out.println("메롱메롱");
+                        System.out.println(error.getMessage());
                         println("에러 발생 -> " + error.getMessage());
                     }
                 }
@@ -232,7 +233,8 @@ public class IndexActivity extends AppCompatActivity {
         if(info.code == 200){
             // movieList.result로 영화정보 접근 가능.
             // 여기서 title, image, reservation_rate, grade, date를 추출해야함.
-            movies = gson.fromJson(response, MovieList.class);
+            MovieList movieList = gson.fromJson(response, MovieList.class);
+            movies = movieList;
         }
     }
 }
