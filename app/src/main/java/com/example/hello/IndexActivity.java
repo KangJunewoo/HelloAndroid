@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,9 +30,10 @@ import java.util.ArrayList;
 public class IndexActivity extends AppCompatActivity {
     TextView textView;
     Button button;
-
+    int i=0;
     ViewPager pager;
-
+    // 아싸리 전역으로 선언해버리기..?
+    public static ArrayList movies = new ArrayList<ArrayList<String>>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,10 @@ public class IndexActivity extends AppCompatActivity {
             }
         });
 
+
+        requestMovieList2();
+        Toast.makeText(getApplicationContext(), movies.get(0).toString(), Toast.LENGTH_LONG).show();
+
         if(AppHelper.requestQueue == null){
             AppHelper.requestQueue = Volley.newRequestQueue(getApplicationContext());
         }
@@ -58,6 +64,9 @@ public class IndexActivity extends AppCompatActivity {
         MoviePagerAdapter adapter = new MoviePagerAdapter(getSupportFragmentManager());
 
         FragmentMovie1 f1 = new FragmentMovie1();
+        Bundle bundle = new Bundle();
+        //bundle.putString("title", movies.get(0).toString());
+        f1.setArguments(bundle);
         adapter.addItem(f1);
         FragmentMovie2 f2 = new FragmentMovie2();
         adapter.addItem(f2);
@@ -113,39 +122,74 @@ public class IndexActivity extends AppCompatActivity {
     }
 
     public void requestMovieList(){
+        // url 정의하고
         String url = "http://" + AppHelper.host + ":" + AppHelper.port + "/movie/readMovieList";
 
+        // 쿼리스트링 달고
         url += "?" + "type=1";
 
+        // 리퀘스트 만듦. 오.. 어렵지 않네.
         StringRequest request = new StringRequest(
-            Request.Method.GET,
-            url,
-            new Response.Listener<String>(){
-                @Override
-                public void onResponse(String response){
-                    println("응답 받음 -> " + response);
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        println("응답 받음!");
 
-                    processResponse(response);
-                }
-            },
+                        processResponse(response);
+                    }
+                },
 
-            new Response.ErrorListener(){
-                @Override
-                public void onErrorResponse(VolleyError error){
-                    println("에러 발생 -> " + error.getMessage());
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        println("에러 발생 -> " + error.getMessage());
+                    }
                 }
-            }
         );
         request.setShouldCache(false);
         AppHelper.requestQueue.add(request);
         println("영화목록 요청 보냄.");
     }
 
+    public void requestMovieList2(){
+        // url 정의하고
+        String url = "http://" + AppHelper.host + ":" + AppHelper.port + "/movie/readMovieList";
+
+        // 쿼리스트링 달고
+        url += "?" + "type=1";
+
+        // 리퀘스트 만듦. 오.. 어렵지 않네.
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        processResponse2(response);
+                    }
+                },
+
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        println("에러 발생 -> " + error.getMessage());
+                    }
+                }
+        );
+        // 이 부분은 무엇일까
+        request.setShouldCache(false);
+        AppHelper.requestQueue.add(request);
+    }
+
+    // 이거 원래 콘솔에 띄우는거 아니었나..? @Override 안달아도 되나?
     public void println(String data){
         textView.append(data + "\n");
     }
 
     public void processResponse(String response){
+        // response는 json으로 받아 gson으로 변환.
         Gson gson = new Gson();
 
         ResponseInfo info = gson.fromJson(response, ResponseInfo.class);
@@ -158,5 +202,35 @@ public class IndexActivity extends AppCompatActivity {
                 println("영화 #" + i + " -> " + movieInfo.id + ", " + movieInfo.title + "; " + movieInfo.grade);
             }
         }
+    }
+
+    public void processResponse2(String response){
+        // response는 json으로 받아 gson으로 변환.
+        Gson gson = new Gson();
+
+        // info엔 code, message, resultType이 저장됨.
+        ResponseInfo info = gson.fromJson(response, ResponseInfo.class);
+
+        // 정상코드면 ㄱㄱ
+        if(info.code == 200){
+            // movieList.result로 영화정보 접근 가능.
+            // 여기서 title, image, reservation_rate, grade, date를 빼야함.
+            MovieList movieList = gson.fromJson(response, MovieList.class);
+            for(int i=0;i<movieList.result.size();i++){
+                ArrayList movie = new ArrayList<String>();
+                MovieInfo movieInfo = movieList.result.get(i);
+                movie.add(movieInfo.title);
+                movie.add(movieInfo.image);
+                movie.add(movieInfo.reservation_rate);
+                movie.add(movieInfo.grade);
+                movie.add(movieInfo.date);
+                movies.add(movie);
+                // println("영화 #" + i + " -> " + movieInfo.id + ", " + movieInfo.title + "; " + movieInfo.grade);
+            }
+        }
+    }
+
+    public void applyInfo(MovieInfo movieInfo){
+
     }
 }

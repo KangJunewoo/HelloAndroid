@@ -18,8 +18,9 @@ public class FragmentMovie1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_movie1, container, false);
         Button button = (Button) rootView.findViewById(R.id.button);
+        String merong = this.getArguments().getString("merong");
+        button.setText(merong);
         button.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
