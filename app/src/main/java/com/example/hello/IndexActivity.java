@@ -25,6 +25,7 @@ import com.example.hello.data.MovieList;
 import com.example.hello.data.ResponseInfo;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class IndexActivity extends AppCompatActivity {
@@ -33,7 +34,12 @@ public class IndexActivity extends AppCompatActivity {
     int i=0;
     ViewPager pager;
     // 아싸리 전역으로 선언해버리기..?
-    public static ArrayList movies = new ArrayList<ArrayList<String>>();
+    public static ArrayList<Type> movie1 = new ArrayList<Type>();
+    public static ArrayList<Type> movie2 = new ArrayList<Type>();
+    public static ArrayList<Type> movie3 = new ArrayList<Type>();
+    public static ArrayList<Type> movie4 = new ArrayList<Type>();
+    public static ArrayList<Type> movie5 = new ArrayList<Type>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,18 +69,55 @@ public class IndexActivity extends AppCompatActivity {
 
         MoviePagerAdapter adapter = new MoviePagerAdapter(getSupportFragmentManager());
 
+        Bundle bundle1 = new Bundle();
+        Bundle bundle2 = new Bundle();
+        Bundle bundle3 = new Bundle();
+        Bundle bundle4 = new Bundle();
+        Bundle bundle5 = new Bundle();
+
         FragmentMovie1 f1 = new FragmentMovie1();
-        Bundle bundle = new Bundle();
-        //bundle.putString("title", movies.get(0).toString());
-        f1.setArguments(bundle);
+        bundle1.putString("title", movie1.get(0).toString());
+        bundle1.putString("image", movie1.get(1).toString());
+        bundle1.putFloat("reservation_rate", movie1.get(2));
+        bundle1.putInt("grade", movie1.get(3));
+        bundle1.putString("date", movie1.get(4));
+        f1.setArguments(bundle1);
         adapter.addItem(f1);
+
         FragmentMovie2 f2 = new FragmentMovie2();
+        bundle1.putString("title", movie2.get(0));
+        bundle1.putString("image", movie2.get(1));
+        bundle1.putString("reservation_rate", movie2.get(2));
+        bundle1.putString("grade", movie2.get(3));
+        bundle1.putString("date", movie2.get(4));
+        f1.setArguments(bundle2);
         adapter.addItem(f2);
+
         FragmentMovie3 f3 = new FragmentMovie3();
+        bundle1.putString("title", movie3.get(0));
+        bundle1.putString("image", movie3.get(1));
+        bundle1.putString("reservation_rate", movie3.get(2));
+        bundle1.putString("grade", movie3.get(3));
+        bundle1.putString("date", movie3.get(4));
+        f1.setArguments(bundle3);
         adapter.addItem(f3);
+
         FragmentMovie4 f4 = new FragmentMovie4();
+        bundle4.putString("title", movie4.get(0));
+        bundle4.putString("image", movie4.get(1));
+        bundle4.putString("reservation_rate", movie4.get(2));
+        bundle4.putString("grade", movie4.get(3));
+        bundle4.putString("date", movie4.get(4));
+        f1.setArguments(bundle4);
         adapter.addItem(f4);
+
         FragmentMovie5 f5 = new FragmentMovie5();
+        bundle5.putString("title", movie5.get(0));
+        bundle5.putString("image", movie5.get(1));
+        bundle5.putString("reservation_rate", movie5.get(2));
+        bundle5.putString("grade", movie5.get(3));
+        bundle5.putString("date", movie5.get(4));
+        f1.setArguments(bundle5);
         adapter.addItem(f5);
 
 
@@ -216,17 +259,13 @@ public class IndexActivity extends AppCompatActivity {
             // movieList.result로 영화정보 접근 가능.
             // 여기서 title, image, reservation_rate, grade, date를 빼야함.
             MovieList movieList = gson.fromJson(response, MovieList.class);
-            for(int i=0;i<movieList.result.size();i++){
-                ArrayList movie = new ArrayList<String>();
-                MovieInfo movieInfo = movieList.result.get(i);
-                movie.add(movieInfo.title);
-                movie.add(movieInfo.image);
-                movie.add(movieInfo.reservation_rate);
-                movie.add(movieInfo.grade);
-                movie.add(movieInfo.date);
-                movies.add(movie);
-                // println("영화 #" + i + " -> " + movieInfo.id + ", " + movieInfo.title + "; " + movieInfo.grade);
-            }
+            MovieInfo movieInfo = movieList.result.get(i);
+            movie1.add(movieInfo.title);
+            movie1.add(movieInfo.image);
+            movie1.add(movieInfo.reservation_rate));
+            movie1.add(movieInfo.grade);
+            movie1.add(movieInfo.date);
+
         }
     }
 
