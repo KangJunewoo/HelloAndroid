@@ -3,6 +3,7 @@ package com.example.hello;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -40,16 +41,16 @@ public class IndexActivity extends AppCompatActivity {
 
         // 네트워크
         textView = (TextView) findViewById(R.id.textView);
-//        button = (Button) findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                requestMovieList();
-//            }
-//        });
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestMovieList();
+            }
+        });
 
-
-        requestMovieList2();
+// 왜 안될까.. 그 이유는 추후에 찾자.
+// requestMovieList2();
 
         if(AppHelper.requestQueue == null){
             AppHelper.requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -60,25 +61,31 @@ public class IndexActivity extends AppCompatActivity {
         pager.setOffscreenPageLimit(5);
 
         MoviePagerAdapter adapter = new MoviePagerAdapter(getSupportFragmentManager());
-        ArrayList<Bundle> bundles = new ArrayList<Bundle>();
+//        ArrayList<Bundle> bundles = new ArrayList<Bundle>();
         Bundle bundle1 = new Bundle();
         Bundle bundle2 = new Bundle();
         Bundle bundle3 = new Bundle();
         Bundle bundle4 = new Bundle();
         Bundle bundle5 = new Bundle();
-        bundles.add(bundle1);
-        bundles.add(bundle2);
-        bundles.add(bundle3);
-        bundles.add(bundle4);
-        bundles.add(bundle5);
+//        bundles.add(bundle1);
+//        bundles.add(bundle2);
+//        bundles.add(bundle3);
+//        bundles.add(bundle4);
+//        bundles.add(bundle5);
 
 
         FragmentMovie1 f1 = new FragmentMovie1();
-        bundle1.putString("title", movies.result.get(0).title);
-        bundle1.putString("image", movies.result.get(0).image);
-        bundle1.putFloat("reservation_rate", movies.result.get(0).reservation_rate);
-        bundle1.putInt("grade", movies.result.get(0).grade);
-        bundle1.putString("date", movies.result.get(0).date);
+        bundle1.putString("title", "꾼");
+        bundle1.putString("image", "http://movie.phinf.naver.net/20171107_251/1510033896133nWqxG_JPEG/movie_image.jpg");
+        bundle1.putFloat("reservation_rate", 61.69f);
+        bundle1.putInt("grade", 15);
+        bundle1.putString("date", "2017-11-22");
+//        bundle1.putString("title", movies.result.get(0).title);
+//        bundle1.putString("image", movies.result.get(0).image);
+//        bundle1.putFloat("reservation_rate", movies.result.get(0).reservation_rate);
+//        bundle1.putInt("grade", movies.result.get(0).grade);
+//        bundle1.putString("date", movies.result.get(0).date);
+        // glide 사용해 url 이미지 보여주기 가능. 하지만! 지금은 생략~
         f1.setArguments(bundle1);
         adapter.addItem(f1);
 
