@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements FragmentCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 인플레이션 과정, 이후 findViewById 사용 가능.
 
+
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener(){
             @Override

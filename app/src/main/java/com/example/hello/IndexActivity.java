@@ -39,6 +39,9 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
+        AppHelper.openDatabase(getApplicationContext(), "movie");
+        AppHelper.createTable("outline");
+
         // 네트워크
         textView = (TextView) findViewById(R.id.textView);
         button = (Button) findViewById(R.id.button);
