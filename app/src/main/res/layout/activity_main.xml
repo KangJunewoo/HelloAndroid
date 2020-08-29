@@ -9,6 +9,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/playButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="유튜브 동영상 재생하기"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="https:/youtu.be/JNL44p5kzTk"
+                android:id="@+id/editText"/>
+
+            <com.github.chrisbanes.photoview.PhotoView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/photoView"/>
+        </LinearLayout>
 
         <Button
             android:id="@+id/button"

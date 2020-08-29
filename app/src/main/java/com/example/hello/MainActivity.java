@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
 
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements FragmentCallback 
     Fragment1 fragment1;
     Button button;
 
+    EditText editText;
+
     int likeCount = 34;
     int dislikeCount = 12;
     boolean likeState = false;
@@ -44,6 +49,21 @@ public class MainActivity extends AppCompatActivity implements FragmentCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // 인플레이션 과정, 이후 findViewById 사용 가능.
 
+        editText = (EditText) findViewById(R.id.editText);
+        Button button = (Button) findViewById(R.id.playButton);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String url = editText.getText().toString();
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
+
+        PhotoView photoView = (PhotoView) findViewById(R.id.photoView);
+        photoView.setImageResource(R.drawable.image4);
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener(){
