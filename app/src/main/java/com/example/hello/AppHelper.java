@@ -6,10 +6,9 @@ import com.android.volley.RequestQueue;
 
 public class AppHelper {
     private static final String TAG = "AppHelper";
-
     private static SQLiteDatabase database;
 
-    // 각각의 경우에 맞게 sql문 정의하자.
+    // 각각의 경우에 맞게 sql문 정의하자. 이런 식으로 sql 미리 정의해놓고
     private static String createTableOutlineSql = "create table if not exists outline" +
             "(" +
             "    _id integer PRIMARY KEY autoincrement, " +
@@ -47,7 +46,8 @@ public class AppHelper {
 
         if(database != null){
             if(tableName.equals("outline")){
-                database.execSQL(createTableOutlineSql);
+            // 요런 식ㅇ로 실행하면 됨.
+            database.execSQL(createTableOutlineSql);
                 println("outline 테이블 생성 요청됨.");
             }
         } else{

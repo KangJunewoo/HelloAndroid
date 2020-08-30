@@ -39,6 +39,7 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
+        // AppHelper에서 정의해놓은 sql실행함수 호출
         AppHelper.openDatabase(getApplicationContext(), "movie");
         AppHelper.createTable("outline");
 
